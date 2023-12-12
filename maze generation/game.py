@@ -3,12 +3,12 @@ from maze import *
 import pygame
 from pygame.locals import *
 
-WINSIZE = (Cell.w * 41, Cell.h * 41)
+WINSIZE = (Cell.w * 161, Cell.h * 81)
 
 
 def draw_maze(screen):
     maze = Maze(WINSIZE)
-    maze.generate(screen, True)
+    maze.generate(screen)
 
 
 def main():

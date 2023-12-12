@@ -4,7 +4,7 @@ from random import choice
 
 class Cell(pygame.sprite.Sprite):
     # Define the width and height of each cell
-    w, h = 16, 16
+    w, h = 8, 8
 
     def __init__(self, x, y, maze):
         pygame.sprite.Sprite.__init__(self)
@@ -60,7 +60,7 @@ class Maze:
             for cell in row:
                 cell.draw(screen)
 
-    def generate(self, screen=None, animate=False):
+    def generate(self, screen=None):
         # Create a list of unvisited cells
         unvisited = [c for r in self.grid for c in r if c.x % 2 and c.y % 2]
         cur = unvisited.pop()
@@ -78,13 +78,12 @@ class Maze:
                 self.grid[cur.x][cur.y] = Cell(cur.x, cur.y, self)
                 cur = n
                 unvisited.remove(n)
-
-                if animate:
-                    # If animation is enabled, draw the maze and update the display
-                    self.draw(screen)
-                    pygame.display.update()
-                    pygame.time.wait(10)
             except IndexError:
                 if stack:
-                    # Backtrack if dead end is reached
+                    # Backtrack if a dead end is reached
                     cur = stack.pop()
+
+        # Draw the whole maze after it's generated
+        if screen:
+            self.draw(screen)
+            pygame.display.update()
