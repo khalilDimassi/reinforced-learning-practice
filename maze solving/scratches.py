@@ -76,10 +76,21 @@ class Maze:
             pygame.time.wait(100)
 
 
-
     def main(self, screen):
-        # Main game loop
-        pass
+        running = True
+        while running:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    running = False
+                elif event.type == pygame.MOUSEBUTTONDOWN:
+                    if event.button == 1: # Left mouse button
+                        self.generate_maze()
+                    elif event.button == 3: # Right mouse button
+                        self.find_path()
+                        self.animate_path(screen)
+            self.render_maze(screen)
+        pygame.quit()
+
 
 
 
