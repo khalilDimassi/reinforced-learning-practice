@@ -91,8 +91,48 @@ class Maze:
             self.render_maze(screen)
         pygame.quit()
 
+def get_neighbors(maze, node):
+    neighbors = []
+    for direction in [(0, 1), (0, -1), (1, 0), (-1, 0)]: # Right, Left, Down, Up
+        neighbor = (node[0] + direction[0], node[1] + direction[1])
+        if (0 <= neighbor[0] < len(maze[0]) and 0 <= neighbor[1] < len(maze) and
+            maze[neighbor[1]][neighbor[0]] == 0): # If the neighbor is a path
+            neighbors.append(neighbor)
+    return neighbors
 
+def dijkstra(maze, start, end):
+    # Initialize the distance to all nodes as infinity
+    distance = {point: float('inf') for row in maze for point in row}
+    distance[start] = 0
 
+    # Initialize the priority queue with the start node
+    queue = [(0, start)]
+
+    while queue:
+        # Get the node with the smallest distance
+        current_distance, current_node = heapq.heappop(queue)
+
+        # If the current node is the end node, we have found the shortest path
+        if current_node == end:
+            return distance
+
+        # If the current distance is greater than the recorded distance, skip this node
+        if current_distance > distance[current_node]:
+            continue
+
+        # For each neighbor of the current node
+        for neighbor in get_neighbors(maze, current_node):
+            # Calculate the distance to the neighbor through the current node
+            distance_through_current_node = current_distance + 1
+
+            # If the distance to the neighbor through the current node is less than the recorded distance
+            if distance_through_current_node < distance[neighbor]:
+                # Update the recorded distance and add the neighbor to the queue
+                distance[neighbor] = distance_through_current_node
+                heapq.heappush(queue, (distance[neighbor], neighbor))
+
+    # If there is no path to the end node
+    return None
 
 if __name__ == '__main__':
     pygame.init()
