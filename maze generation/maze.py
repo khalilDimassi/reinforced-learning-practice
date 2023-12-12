@@ -56,6 +56,37 @@ class Player:
         self.y += 1
 
 
+def game_loop(maze, player):
+    clock = pygame.time.Clock()
+    running = True
+
+    while running:
+        # Event handling
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RIGHT:
+                    player.move_right()
+                elif event.key == pygame.K_LEFT:
+                    player.move_left()
+                elif event.key == pygame.K_UP:
+                    player.move_up()
+                elif event.key == pygame.K_DOWN:
+                    player.move_down()
+
+        # Update game state
+        # ...
+
+        # Draw everything
+        # ...
+
+        # Cap the frame rate
+        clock.tick(FPS)
+
+    pygame.quit()
+
+
 if __name__ == '__main__':
     # Initialize Pygame
     pygame.init()
