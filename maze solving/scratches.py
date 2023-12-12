@@ -1,6 +1,7 @@
 import pygame
 import heapq
 import time
+import random
 
 
 class Maze:
@@ -14,8 +15,22 @@ class Maze:
         self.path_finding_in_progress = False
 
     def generate_maze(self):
-        # Implementation of the maze generation algorithm
-        pass
+        directions = [(0, 1), (0, -1), (1, 0), (-1, 0)] # Right, Left, Down, Up
+        random.shuffle(directions)
+        stack = [self.start]
+        while stack:
+            x, y = stack[-1]
+            self.maze[y][x] = 0 # Carve out a path
+            for dx, dy in directions:
+                nx, ny = x + dx, y + dy
+                if (0 <= nx < self.width and 0 <= ny < self.height and
+                    self.maze[ny][nx] == 1):
+                    stack.append((nx, ny))
+                    break
+            else:
+                # If no unvisited neighbors, backtrack
+                stack.pop()
+        self.maze[self.end[1]][self.end[0]] = 0 # Carve out the end point
 
     def render_maze(self, screen):
         # Implementation of the maze rendering
