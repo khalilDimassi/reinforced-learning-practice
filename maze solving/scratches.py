@@ -69,10 +69,12 @@ class Maze:
         return self.build_path(distances)
 
 
-
     def animate_path(self, screen):
-        # Implementation of the path animation
-        pass
+        for point in self.path:
+            pygame.draw.rect(screen, (0, 255, 0), (point[0] * 20, point[1] * 20, 20, 20))
+            pygame.display.flip()
+            pygame.time.wait(100)
+
 
 
     def main(self, screen):
