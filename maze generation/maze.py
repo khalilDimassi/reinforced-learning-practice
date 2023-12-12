@@ -60,20 +60,23 @@ def game_loop(maze, player):
     clock = pygame.time.Clock()
     running = True
 
+    # Define key mappings
+    key_actions = {
+        pygame.K_RIGHT: player.move_right,
+        pygame.K_LEFT: player.move_left,
+        pygame.K_UP: player.move_up,
+        pygame.K_DOWN: player.move_down
+    }
+
     while running:
-        # Event handling
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
             elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_RIGHT:
-                    player.move_right()
-                elif event.key == pygame.K_LEFT:
-                    player.move_left()
-                elif event.key == pygame.K_UP:
-                    player.move_up()
-                elif event.key == pygame.K_DOWN:
-                    player.move_down()
+                action = key_actions.get(event.key)
+                if action:
+                    action()
+
 
         # Update game state
         # ...
