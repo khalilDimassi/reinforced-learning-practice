@@ -53,11 +53,21 @@ class Maze:
                 pygame.draw.rect(screen, color, (x * block_size, y * block_size, block_size, block_size))
 
 
-
-
     def find_path(self):
-        # Implementation of the Dijkstra algorithm
-        pass
+        queue = [(0, self.start)]
+        distances = {self.start: 0}
+        while queue:
+            (cost, current) = heapq.heappop(queue)
+            if current == self.end:
+                break
+            for neighbor in self.get_neighbors(current):
+                old_cost = distances.get(neighbor, float('inf'))
+                new_cost = cost + 1
+                if new_cost < old_cost:
+                    distances[neighbor] = new_cost
+                    heapq.heappush(queue, (new_cost, neighbor))
+        return self.build_path(distances)
+
 
 
     def animate_path(self, screen):
