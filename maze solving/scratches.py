@@ -35,16 +35,23 @@ class Maze:
 
 
     def render_maze(self, screen):
-        for y in range(self.height):
-            for x in range(self.width):
-                if self.maze[y][x] == 1:
-                    pygame.draw.rect(screen, (0, 0, 0), (x * 20, y * 20, 20, 20))
-                elif self.maze[y][x] == 0:
-                    pygame.draw.rect(screen, (255, 255, 255), (x * 20, y * 20, 20, 20))
-                elif (x, y) == self.start:
-                    pygame.draw.rect(screen, (0, 255, 0), (x * 20, y * 20, 20, 20))
+        block_size = 20
+        colors = {
+            1: (0, 0, 0),      # Wall
+            0: (255, 255, 255) # Path
+        }
+
+        for y, row in enumerate(self.maze):
+            for x, cell in enumerate(row):
+                color = colors.get(cell, (255, 255, 255))
+
+                if (x, y) == self.start:
+                    color = (0, 255, 0)  # Start
                 elif (x, y) == self.end:
-                    pygame.draw.rect(screen, (255, 0, 0), (x * 20, y * 20, 20, 20))
+                    color = (255, 0, 0)  # End
+
+                pygame.draw.rect(screen, color, (x * block_size, y * block_size, block_size, block_size))
+
 
 
 
