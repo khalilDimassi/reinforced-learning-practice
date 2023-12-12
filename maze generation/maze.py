@@ -78,8 +78,11 @@ def game_loop(maze, player):
                     action()
 
 
-        # Update game state
-        # ...
+    # Update game state
+    if player.x == maze.width - 1 and player.y == maze.height - 1:
+        print("You reached the end of the maze!")
+        running = False
+
 
         # Draw everything
         # ...
